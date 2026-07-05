@@ -19,7 +19,7 @@ export default function ChatWindow({ messages, persona, isTyping }: ChatWindowPr
   return (
     <div className="flex-1 overflow-y-auto py-4 flex flex-col gap-3 bg-panel/40">
       {messages.map((m, i) => (
-        <MessageBubble key={i} role={m.role} content={m.content} persona={persona} />
+        <MessageBubble key={i} message={m} persona={persona} />
       ))}
       {isTyping && <TypingIndicator persona={persona} />}
       <div ref={bottomRef} />

@@ -1,3 +1,4 @@
+import Avatar from './Avatar';
 import type { Persona } from '../types';
 
 interface TypingIndicatorProps {
@@ -5,18 +6,13 @@ interface TypingIndicatorProps {
 }
 
 export default function TypingIndicator({ persona }: TypingIndicatorProps) {
-  const label = persona.id === 'hitesh' ? 'chai brew ho rahi hai' : 'compiling response';
+  const firstName = persona.displayName.split(' ')[0];
 
   return (
     <div className="flex justify-start px-4 gap-3">
-      <div
-        className="mt-1 shrink-0 w-7 h-7 rounded-md flex items-center justify-center font-mono text-[10px] font-bold"
-        style={{ backgroundColor: `${persona.color}22`, color: persona.color }}
-      >
-        {persona.displayName[0]}
-      </div>
+      <Avatar persona={persona} />
       <div className="bg-panel rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-2">
-        <span className="font-mono text-[11px] text-parchment/40">{label}</span>
+        <span className="font-mono text-[11px] text-parchment/40">{firstName} is typing</span>
         <span className="flex gap-1">
           {[0, 1, 2].map((i) => (
             <span

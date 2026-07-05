@@ -5,6 +5,7 @@ export type ChatRole = 'user' | 'assistant';
 export interface ChatMessage {
   role: ChatRole;
   content: string;
+  createdAt?: string;
 }
 
 /** Public persona metadata as returned by GET /api/personas. */
@@ -37,4 +38,18 @@ export interface SendMessageResult {
 
 export interface ApiErrorBody {
   error: string;
+}
+
+export interface SessionListItem {
+  id: string;
+  personaId: PersonaId;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface HistoryResult {
+  messages: ChatMessage[];
+  personaId: PersonaId;
+  title: string | null;
 }

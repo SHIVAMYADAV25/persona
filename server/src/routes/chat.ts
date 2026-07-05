@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import { getPersona } from '../personas';
-import { ensureSession, getRecentMessages, saveMessage } from '../db/queries';
+import { ensureSession, getRecentMessages, getSessionById, saveMessage } from '../db/queries';
 import { client, MODEL } from '../lib/openai';
 import type {
   ApiErrorBody,
@@ -104,8 +104,12 @@ router.get(
     res: Response<HistoryResponseBody | ApiErrorBody>
   ) => {
     try {
+      const session = await getSessionById(req.params.sessionId);
+      if (!session) {
+        return res.status(404).json({ error: 'Session not found' });
+      }
       const history = await getRecentMessages(req.params.sessionId, 100);
-      return res.json({ messages: history });
+      return res.json({ messages: history, personaId: session.persona, title: session.title ?? null });
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('[history] error', err);

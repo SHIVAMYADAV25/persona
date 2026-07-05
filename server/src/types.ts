@@ -26,12 +26,27 @@ export type PersonaListItem = Omit<PersonaConfig, 'systemPrompt' | 'temperature'
 export interface SessionRow {
   id: string;
   persona: PersonaId;
+  title?: string | null;
+}
+
+/** Row shape used for the sidebar history list. */
+export interface SessionListItem {
+  id: string;
+  personaId: PersonaId;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SessionsResponseBody {
+  sessions: SessionListItem[];
 }
 
 /** Row shape for the `messages` table (as read back from Postgres). */
 export interface MessageRow {
   role: ChatRole;
   content: string;
+  createdAt?: string;
 }
 
 export interface ChatRequestBody {
@@ -52,6 +67,8 @@ export interface ApiErrorBody {
 
 export interface HistoryResponseBody {
   messages: MessageRow[];
+  personaId: PersonaId;
+  title: string | null;
 }
 
 export interface PersonasResponseBody {

@@ -5,8 +5,14 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 CREATE TABLE IF NOT EXISTS sessions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   persona TEXT NOT NULL CHECK (persona IN ('hitesh', 'piyush')),
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  title TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Backfill for pre-existing tables (safe no-ops on fresh installs)
+ALTER TABLE sessions ADD COLUMN IF NOT EXISTS title TEXT;
+ALTER TABLE sessions ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT now();
 
 CREATE TABLE IF NOT EXISTS messages (
   id BIGSERIAL PRIMARY KEY,

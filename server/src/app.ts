@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import chatRouter from './routes/chat';
 import personasRouter from './routes/personas';
+import sessionsRouter from './routes/sessions';
 
 export function createApp(): Express {
   const app = express();
@@ -11,6 +12,7 @@ export function createApp(): Express {
   app.get('/api/health', (_req: Request, res: Response) => res.json({ ok: true }));
   app.use('/api', personasRouter);
   app.use('/api', chatRouter);
+  app.use('/api', sessionsRouter);
 
   return app;
 }

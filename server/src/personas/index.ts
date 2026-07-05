@@ -5,8 +5,8 @@ import type { PersonaConfig, PersonaId, PersonaListItem } from '../types';
 export const PERSONAS: Record<PersonaId, PersonaConfig> = {
   hitesh: {
     id: 'hitesh',
-    displayName: 'Hitesh',
-    tagline: 'Chai, code, aur thoda sa gyaan',
+    displayName: 'Hitesh Choudhary',
+    tagline: 'Tech educator, focuses on practical learning and real-world coding.',
     color: '#c9762c',
     systemPrompt: HITESH_SYSTEM_PROMPT,
     temperature: 0.85,
@@ -14,8 +14,8 @@ export const PERSONAS: Record<PersonaId, PersonaConfig> = {
   },
   piyush: {
     id: 'piyush',
-    displayName: 'Piyush',
-    tagline: 'Backend, system design, ship it',
+    displayName: 'Piyush Garg',
+    tagline: 'Engineering leader, shares insights on system design and scaling.',
     color: '#2c6fc9',
     systemPrompt: PIYUSH_SYSTEM_PROMPT,
     temperature: 0.75,
