@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Check, ChevronDown, Copy, Menu, Plus } from 'lucide-react';
 import Avatar from './Avatar';
 import PersonaSwitchList from './PersonaSwitchList';
 import type { ChatMessage, Persona, PersonaId } from '../types';
@@ -48,32 +49,35 @@ export default function ChatHeader({
   }
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 bg-panel border-b border-white/5 relative">
+    <div className="flex items-center justify-between px-4 py-3 bg-surface border-b border-border relative">
       <div className="flex items-center gap-2 min-w-0">
         <button
           type="button"
           onClick={onMenuToggle}
-          className="md:hidden mr-1 text-parchment/60 hover:text-parchment"
+          className="md:hidden mr-1 text-ink-faint hover:text-ink transition-colors"
           aria-label="Open sidebar"
         >
-          ☰
+          <Menu className="w-5 h-5" strokeWidth={2} />
         </button>
         <div className="relative" ref={menuRef}>
           <button
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
-            className="flex items-center gap-2 min-w-0"
+            className="flex items-center gap-2 min-w-0 rounded-lg px-1.5 py-1 hover:bg-subtle transition-colors"
           >
             <Avatar persona={persona} size="sm" />
-            <span className="font-display font-semibold text-parchment text-sm truncate">
+            <span className="font-display font-semibold text-ink text-[14px] truncate">
               Chat with {persona.displayName}
             </span>
-            <span className="text-parchment/40 text-xs">⌄</span>
+            <ChevronDown
+              className={`w-3.5 h-3.5 text-ink-quiet transition-transform ${menuOpen ? 'rotate-180' : ''}`}
+              strokeWidth={2}
+            />
           </button>
 
           {menuOpen && (
-            <div className="absolute left-0 top-full mt-2 w-72 rounded-xl border border-white/10 bg-panel shadow-2xl p-3 z-20">
-              <p className="px-1 pb-2 text-[11px] font-mono uppercase tracking-wide text-parchment/35">
+            <div className="absolute left-0 top-full mt-2 w-72 rounded-xl border border-border bg-white shadow-popover p-2.5 z-20">
+              <p className="px-1.5 pb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-quiet">
                 Switch persona
               </p>
               <PersonaSwitchList
@@ -95,16 +99,27 @@ export default function ChatHeader({
           type="button"
           onClick={handleCopySession}
           disabled={!messages.length}
-          className="font-mono text-[10px] text-parchment/40 hover:text-parchment/80 border border-white/10 rounded-md px-2.5 py-1.5 transition-colors disabled:opacity-30"
+          className="flex items-center gap-1.5 text-[12px] font-medium text-ink-faint hover:text-ink border border-border rounded-lg px-2.5 py-1.5 transition-colors disabled:opacity-30 disabled:pointer-events-none"
         >
-          {copied ? 'copied ✓' : 'copy session'}
+          {copied ? (
+            <>
+              <Check className="w-3.5 h-3.5" strokeWidth={2.25} />
+              Copied
+            </>
+          ) : (
+            <>
+              <Copy className="w-3.5 h-3.5" strokeWidth={2} />
+              Copy session
+            </>
+          )}
         </button>
         <button
           type="button"
           onClick={onReset}
-          className="font-mono text-[10px] text-parchment/40 hover:text-parchment/80 border border-white/10 rounded-md px-2.5 py-1.5 transition-colors"
+          className="flex items-center gap-1.5 text-[12px] font-medium text-ink-faint hover:text-ink border border-border rounded-lg px-2.5 py-1.5 transition-colors"
         >
-          new chat
+          <Plus className="w-3.5 h-3.5" strokeWidth={2} />
+          New chat
         </button>
       </div>
     </div>

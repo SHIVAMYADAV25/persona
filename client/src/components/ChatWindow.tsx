@@ -17,7 +17,7 @@ export default function ChatWindow({ messages, persona, isTyping }: ChatWindowPr
   }, [messages.length, isTyping]);
 
   return (
-    <div className="flex-1 overflow-y-auto py-4 flex flex-col gap-3 bg-panel/40">
+    <div className="flex-1 overflow-y-auto py-5 flex flex-col gap-4 bg-surface">
       {messages.map((m, i) => (
         <MessageBubble key={i} message={m} persona={persona} />
       ))}

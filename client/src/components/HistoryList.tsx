@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { groupSessionsByDay } from '../lib/date';
+import { ChevronDown, MessagesSquare } from 'lucide-react';
+import { groupSessionsByDay, formatClockTime } from '../lib/date';
 import type { Persona, SessionListItem } from '../types';
 
 interface HistoryListProps {
@@ -8,19 +9,31 @@ interface HistoryListProps {
   loading: boolean;
   personaById: Record<string, Persona | undefined>;
   onNavigate?: () => void;
+  filter?: string;
 }
 
-export default function HistoryList({ sessions, loading, personaById, onNavigate }: HistoryListProps) {
+export default function HistoryList({
+  sessions,
+  loading,
+  personaById,
+  onNavigate,
+  filter = '',
+}: HistoryListProps) {
   const navigate = useNavigate();
   const { sessionId: activeSessionId } = useParams();
-  const groups = groupSessionsByDay(sessions);
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+
+  const query = filter.trim().toLowerCase();
+  const visibleSessions = query
+    ? sessions.filter((s) => (s.title || 'Untitled chat').toLowerCase().includes(query))
+    : sessions;
+  const groups = groupSessionsByDay(visibleSessions);
 
   if (loading && !sessions.length) {
     return (
       <div className="px-3 py-4 space-y-2">
         {[0, 1, 2].map((i) => (
-          <div key={i} className="h-4 rounded bg-panelLight/60 animate-pulse" />
+          <div key={i} className="h-8 rounded-lg bg-subtle animate-pulse" />
         ))}
       </div>
     );
@@ -28,10 +41,19 @@ export default function HistoryList({ sessions, loading, personaById, onNavigate
 
   if (!sessions.length) {
     return (
-      <p className="px-3 py-4 text-[11px] text-parchment/35 font-mono leading-relaxed">
-        No conversations yet — say hi to start one.
-      </p>
+      <div className="px-4 py-8 flex flex-col items-center gap-2 text-center">
+        <MessagesSquare className="w-5 h-5 text-ink-quiet" strokeWidth={1.75} />
+        <p className="text-[12.5px] text-ink-faint leading-relaxed">
+          No conversations yet.
+          <br />
+          Say hi to start one.
+        </p>
+      </div>
     );
+  }
+
+  if (query && !visibleSessions.length) {
+    return <p className="px-4 py-6 text-[12.5px] text-ink-faint">No chats match &ldquo;{filter}&rdquo;.</p>;
   }
 
   return (
@@ -43,10 +65,13 @@ export default function HistoryList({ sessions, loading, personaById, onNavigate
             <button
               type="button"
               onClick={() => setCollapsed((c) => ({ ...c, [group.label]: !c[group.label] }))}
-              className="w-full flex items-center justify-between px-2 py-1.5 text-[11px] font-mono uppercase tracking-wide text-parchment/35 hover:text-parchment/60"
+              className="w-full flex items-center justify-between px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-quiet hover:text-ink-soft transition-colors"
             >
               {group.label}
-              <span className={`transition-transform ${isCollapsed ? '-rotate-90' : ''}`}>⌄</span>
+              <ChevronDown
+                className={`w-3.5 h-3.5 transition-transform ${isCollapsed ? '-rotate-90' : ''}`}
+                strokeWidth={2}
+              />
             </button>
             {!isCollapsed && (
               <ul className="flex flex-col gap-0.5">
@@ -62,17 +87,18 @@ export default function HistoryList({ sessions, loading, personaById, onNavigate
                           onNavigate?.();
                         }}
                         className={[
-                          'w-full flex items-center gap-2 rounded-lg px-2.5 py-2 text-left text-[13px] transition-colors truncate',
-                          active
-                            ? 'bg-panelLight text-parchment'
-                            : 'text-parchment/55 hover:bg-panelLight/50 hover:text-parchment/85',
+                          'group w-full flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13px] transition-colors',
+                          active ? 'bg-subtle text-ink' : 'text-ink-soft hover:bg-subtle/70 hover:text-ink',
                         ].join(' ')}
                       >
                         <span
                           className="w-1.5 h-1.5 rounded-full shrink-0"
-                          style={{ backgroundColor: persona?.color ?? '#888', opacity: active ? 1 : 0.5 }}
+                          style={{ backgroundColor: persona?.color ?? '#a3a3a3' }}
                         />
-                        <span className="truncate">{session.title || 'Untitled chat'}</span>
+                        <span className="truncate flex-1">{session.title || 'Untitled chat'}</span>
+                        <span className="shrink-0 text-[10.5px] font-mono tabular-nums text-ink-quiet">
+                          {formatClockTime(session.updatedAt)}
+                        </span>
                       </button>
                     </li>
                   );

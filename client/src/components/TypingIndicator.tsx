@@ -11,8 +11,8 @@ export default function TypingIndicator({ persona }: TypingIndicatorProps) {
   return (
     <div className="flex justify-start px-4 gap-3">
       <Avatar persona={persona} />
-      <div className="bg-panel rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-2">
-        <span className="font-mono text-[11px] text-parchment/40">{firstName} is typing</span>
+      <div className="bg-subtle rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-2">
+        <span className="text-[12px] text-ink-faint">{firstName} is typing</span>
         <span className="flex gap-1">
           {[0, 1, 2].map((i) => (
             <span

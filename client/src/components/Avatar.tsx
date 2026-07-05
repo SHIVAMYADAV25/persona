@@ -6,9 +6,9 @@ interface AvatarProps {
 }
 
 const SIZE_MAP: Record<NonNullable<AvatarProps['size']>, string> = {
-  sm: 'w-6 h-6 text-[10px]',
-  md: 'w-8 h-8 text-xs',
-  lg: 'w-10 h-10 text-sm',
+  sm: 'w-7 h-7 text-[10px]',
+  md: 'w-9 h-9 text-xs',
+  lg: 'w-11 h-11 text-sm',
 };
 
 function initials(name: string): string {
@@ -23,12 +23,13 @@ function initials(name: string): string {
 export default function Avatar({ persona, size = 'md' }: AvatarProps) {
   return (
     <div
-      className={`shrink-0 rounded-full flex items-center justify-center font-display font-bold ${SIZE_MAP[size]}`}
+      className={`shrink-0 rounded-full flex items-center justify-center font-display font-semibold ring-2 ring-white ${SIZE_MAP[size]}`}
       style={{
-        backgroundColor: `${persona.color}26`,
+        backgroundColor: `${persona.color}1a`,
         color: persona.color,
-        border: `1.5px solid ${persona.color}55`,
+        boxShadow: `0 0 0 1px ${persona.color}33`,
       }}
+      aria-hidden
     >
       {initials(persona.displayName)}
     </div>

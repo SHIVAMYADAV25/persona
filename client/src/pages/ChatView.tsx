@@ -100,13 +100,13 @@ export default function ChatView() {
         onMenuToggle={toggleSidebar}
       />
       {loadingHistory ? (
-        <div className="flex-1 flex items-center justify-center bg-panel/40">
-          <span className="font-mono text-xs text-parchment/35">Loading conversation…</span>
+        <div className="flex-1 flex items-center justify-center bg-surface">
+          <span className="text-[12.5px] text-ink-quiet">Loading conversation…</span>
         </div>
       ) : (
         <ChatWindow messages={messages} persona={persona} isTyping={isTyping} />
       )}
-      {error && <p className="px-4 py-1 text-[11px] font-mono text-red-400/80">{error}</p>}
+      {error && <p className="px-4 py-1.5 text-[12px] text-red-600 bg-red-50 border-t border-red-100">{error}</p>}
       <ChatInput
         onSend={handleSend}
         disabled={isTyping || loadingHistory}

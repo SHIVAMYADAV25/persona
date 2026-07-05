@@ -4,38 +4,54 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: '#171512',
-        panel: '#1f1c18',
-        panelLight: '#2a251f',
-        parchment: '#efe6d8',
+        // Neutral, Claude/ChatGPT-style chrome: white surfaces, near-black text, gray steps.
+        canvas: '#ffffff',
+        surface: '#ffffff',
+        sidebar: '#fafafa',
+        subtle: '#f4f4f5',
+        border: {
+          DEFAULT: '#e5e5e7',
+          soft: '#eeeeef',
+        },
+        ink: {
+          DEFAULT: '#171717',
+          soft: '#404040',
+          faint: '#737373',
+          quiet: '#a3a3a3',
+        },
         hitesh: {
           DEFAULT: '#c9762c',
           soft: '#e0a15f',
-          dim: '#5a3d20',
+          tint: '#fbeee1',
         },
         piyush: {
           DEFAULT: '#3d7fd6',
           soft: '#7fabe8',
-          dim: '#22354f',
+          tint: '#e7eff9',
         },
       },
       fontFamily: {
-        display: ['"Sora"', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace'],
+        display: ['"Sora"', 'ui-sans-serif', 'sans-serif'],
+        sans: ['"Inter"', 'ui-sans-serif', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       keyframes: {
-        steam: {
-          '0%, 100%': { transform: 'translateY(0) scaleX(1)', opacity: '0.5' },
-          '50%': { transform: 'translateY(-6px) scaleX(1.15)', opacity: '0.9' },
-        },
         blink: {
-          '0%, 100%': { opacity: '0.2' },
+          '0%, 100%': { opacity: '0.25' },
           '50%': { opacity: '1' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(4px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
       animation: {
-        steam: 'steam 1.8s ease-in-out infinite',
         blink: 'blink 1.2s ease-in-out infinite',
+        fadeIn: 'fadeIn 0.2s ease-out',
+      },
+      boxShadow: {
+        panel: '0 1px 2px 0 rgba(0,0,0,0.04), 0 1px 12px -4px rgba(0,0,0,0.06)',
+        popover: '0 12px 32px -8px rgba(0,0,0,0.18), 0 2px 8px -2px rgba(0,0,0,0.08)',
       },
     },
   },

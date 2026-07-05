@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
+import { ChevronDown, Contact, Send, Sparkles } from 'lucide-react';
 import PersonaSwitchList from './PersonaSwitchList';
 import type { Persona, PersonaId } from '../types';
 
@@ -57,12 +58,10 @@ export default function ChatInput({
   }
 
   return (
-    <form onSubmit={submit} className="p-3 border-t border-white/5">
-      <div className="rounded-2xl bg-panelLight overflow-hidden">
+    <div className="p-3 border-t border-border bg-surface">
+      <form onSubmit={submit} className="rounded-2xl border border-border bg-white overflow-hidden focus-within:border-ink-quiet transition-colors">
         <div className="flex items-start gap-2 px-4 pt-3">
-          <span className="text-parchment/40 text-sm mt-0.5" aria-hidden>
-            ✨
-          </span>
+          <Sparkles className="w-4 h-4 text-ink-quiet mt-0.5 shrink-0" strokeWidth={2} />
           <textarea
             ref={textareaRef}
             value={value}
@@ -70,7 +69,7 @@ export default function ChatInput({
             onKeyDown={handleKeyDown}
             rows={1}
             placeholder="Ask me anything..."
-            className="flex-1 bg-transparent resize-none outline-none text-sm text-parchment placeholder:text-parchment/30 py-1 max-h-32"
+            className="flex-1 bg-transparent resize-none outline-none text-[14px] text-ink placeholder:text-ink-quiet py-1 max-h-32"
           />
         </div>
 
@@ -79,19 +78,18 @@ export default function ChatInput({
             <button
               type="button"
               onClick={() => setPickerOpen((v) => !v)}
-              className="flex items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-parchment/70 hover:text-parchment transition-colors"
+              className="flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-[12.5px] font-medium text-ink-soft hover:text-ink hover:bg-subtle transition-colors"
             >
-              <span
-                className="w-2 h-2 rounded-sm"
-                style={{ backgroundColor: persona.color }}
-                aria-hidden
-              />
+              <Contact className="w-3.5 h-3.5" style={{ color: persona.color }} strokeWidth={2} />
               {persona.displayName.split(' ')[0]}&rsquo;s Perspective
-              <span className="text-parchment/40">⌄</span>
+              <ChevronDown
+                className={`w-3.5 h-3.5 text-ink-quiet transition-transform ${pickerOpen ? 'rotate-180' : ''}`}
+                strokeWidth={2}
+              />
             </button>
 
             {pickerOpen && (
-              <div className="absolute left-0 bottom-full mb-2 w-64 rounded-xl border border-white/10 bg-panel shadow-2xl p-2 z-20">
+              <div className="absolute left-0 bottom-full mb-2 w-64 rounded-xl border border-border bg-white shadow-popover p-2 z-20">
                 <PersonaSwitchList
                   personas={personas}
                   activeId={persona.id}
@@ -108,15 +106,16 @@ export default function ChatInput({
           <button
             type="submit"
             disabled={disabled || !value.trim()}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-display font-semibold disabled:opacity-30 transition-opacity bg-parchment text-ink"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-[13px] font-semibold disabled:opacity-30 transition-opacity bg-ink text-white hover:bg-ink-soft"
           >
-            Send <span aria-hidden>➤</span>
+            Send
+            <Send className="w-3.5 h-3.5" strokeWidth={2.25} />
           </button>
         </div>
-      </div>
-      <p className="text-[10px] text-parchment/25 mt-1.5 px-1 font-mono">
-        Enter to send · Shift+Enter for new line
+      </form>
+      <p className="text-[11px] text-ink-quiet mt-1.5 px-1">
+        Persona AI may not always be accurate. Please verify important information.
       </p>
-    </form>
+    </div>
   );
 }

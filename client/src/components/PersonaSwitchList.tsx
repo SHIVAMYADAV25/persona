@@ -15,33 +15,34 @@ export default function PersonaSwitchList({
   compact = false,
 }: PersonaSwitchListProps) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-1" role="radiogroup" aria-label="Switch persona">
       {personas.map((p) => {
         const active = p.id === activeId;
         return (
           <button
             key={p.id}
             type="button"
+            role="radio"
+            aria-checked={active}
             onClick={() => onSwitch(p.id)}
             className={[
-              'w-full flex items-center gap-3 rounded-xl border px-3 text-left transition-colors',
-              compact ? 'py-2' : 'py-2.5',
-              active ? 'bg-panelLight' : 'bg-transparent hover:bg-panelLight/60',
+              'w-full flex items-center gap-3 rounded-xl border text-left transition-colors',
+              compact ? 'py-2 px-2.5' : 'py-2.5 px-3',
+              active ? 'bg-subtle border-border' : 'bg-transparent border-transparent hover:bg-subtle/70',
             ].join(' ')}
-            style={{ borderColor: active ? `${p.color}66` : 'rgba(255,255,255,0.06)' }}
           >
             <Avatar persona={p} size={compact ? 'sm' : 'md'} />
             <span className="min-w-0 flex-1">
-              <span className="block text-sm font-display font-semibold text-parchment truncate">
-                {p.displayName}
-              </span>
+              <span className="block text-sm font-medium text-ink truncate">{p.displayName}</span>
               {!compact && (
-                <span className="block text-[11px] text-parchment/45 truncate">{p.tagline}</span>
+                <span className="block text-[12px] text-ink-faint truncate leading-snug mt-0.5">
+                  {p.tagline}
+                </span>
               )}
             </span>
             <span
               className="shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center"
-              style={{ borderColor: active ? p.color : 'rgba(255,255,255,0.25)' }}
+              style={{ borderColor: active ? p.color : '#d4d4d4' }}
             >
               {active && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />}
             </span>
