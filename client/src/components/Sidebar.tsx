@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Search, Sparkle, X, Crown } from 'lucide-react';
+import { Plus, Search, Sparkle, X, ArrowRightLeft, Linkedin, Twitter, Github } from 'lucide-react';
 import HistoryList from './HistoryList';
 import PersonaSwitchList from './PersonaSwitchList';
 import { useAppContext } from '../store/AppContext';
@@ -17,7 +17,6 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [proNote, setProNote] = useState(false);
 
   const personaById = Object.fromEntries(personas.map((p) => [p.id, p]));
 
@@ -43,7 +42,7 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
       <div className="flex items-center justify-between gap-2 px-4 pt-4 pb-1">
         <div className="flex items-center gap-1.5 min-w-0">
           <Sparkle className="w-4 h-4 text-ink shrink-0" strokeWidth={2.25} />
-          <h1 className="font-display font-semibold text-[15px] text-ink truncate">Persona AI</h1>
+          <h1 className="font-display font-semibold text-[15px] text-ink truncate">Mimicly</h1>
         </div>
         <button
           type="button"
@@ -81,7 +80,7 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search chats"
-              className="flex-1 bg-transparent outline-none text-[13px] text-ink placeholder:text-ink-quiet"
+              className="flex-1 bg-transparent outline-none text-[13px] text-ink placeholder:text-ink-quiet focus:outline-none focus:ring-0"
             />
             <button
               type="button"
@@ -112,27 +111,54 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
 
       {/* Switch persona */}
       <div className="p-3 border-t border-border">
-        <p className="px-1 pb-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-quiet">
-          Switch persona
-        </p>
-        <PersonaSwitchList personas={personas} activeId={activePersonaId} onSwitch={handleSwitchPersona} />
+        {/* Flex container to position heading on left and icon on right */}
+        <div className="flex items-center justify-between px-1 pb-1.5">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-quiet">
+            Switch persona
+          </p>
+          <ArrowRightLeft className="w-3.5 h-3.5 text-ink-quiet" strokeWidth={2} />
+        </div>
+        
+        <PersonaSwitchList 
+          personas={personas} 
+          activeId={activePersonaId} 
+          onSwitch={handleSwitchPersona} 
+        />
       </div>
 
-      {/* Upgrade */}
+      {/* Social Links Section */}
       <div className="p-3 pt-0">
-        <button
-          type="button"
-          onClick={() => setProNote(true)}
-          className="w-full flex items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-[13px] font-medium border border-border bg-white text-ink hover:bg-subtle transition-colors"
-        >
-          <Crown className="w-3.5 h-3.5 text-hitesh" strokeWidth={2.25} />
-          Upgrade to Pro
-        </button>
-        {proNote && (
-          <p className="mt-1.5 px-1 text-[11px] text-ink-quiet animate-fadeIn">
-            Pro plans aren&rsquo;t open yet — check back soon.
-          </p>
-        )}
+        <div className="grid grid-cols-3 gap-2">
+          <a
+            href="https://github.com/SHIVAMYADAV25"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="GitHub Profile"
+            className="flex items-center justify-center p-2 rounded-xl border border-border bg-white text-ink-quiet hover:text-ink hover:bg-subtle transition-colors"
+          >
+            <Github className="w-4 h-4" strokeWidth={2} />
+          </a>
+
+          <a
+            href="https://x.com/shivamdotdev"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="X (Twitter) Profile"
+            className="flex items-center justify-center p-2 rounded-xl border border-border bg-white text-ink-quiet hover:text-ink hover:bg-subtle transition-colors"
+          >
+            <Twitter className="w-4 h-4" strokeWidth={2} />
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/shivam-yadav-0a5ba0351/"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="LinkedIn Profile"
+            className="flex items-center justify-center p-2 rounded-xl border border-border bg-white text-ink-quiet hover:text-ink hover:bg-subtle transition-colors"
+          >
+            <Linkedin className="w-4 h-4" strokeWidth={2} />
+          </a>
+        </div>
       </div>
     </aside>
   );

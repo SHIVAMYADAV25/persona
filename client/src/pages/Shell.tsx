@@ -8,7 +8,7 @@ export default function Shell() {
 
   return (
     <div className="h-full flex items-stretch justify-center bg-subtle p-0 md:p-4">
-      <div className="w-full max-w-6xl h-full md:h-[92vh] flex rounded-none md:rounded-2xl overflow-hidden border border-border shadow-panel bg-surface relative">
+      <div className="w-full max-w-9xl h-full md:h-[92vh] flex rounded-none md:rounded-2xl overflow-hidden border border-border shadow-panel bg-surface relative">
         {/* Desktop sidebar */}
         <div className="hidden md:flex">
           <Sidebar />
